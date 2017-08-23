@@ -7,15 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		44A79AF31F4CF52300B4672E /* PictureScreenSaverView.h in Headers */ = {isa = PBXBuildFile; fileRef = 44A79AF21F4CF52300B4672E /* PictureScreenSaverView.h */; };
-		44A79AF51F4CF52300B4672E /* PictureScreenSaverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A79AF41F4CF52300B4672E /* PictureScreenSaverView.m */; };
+		44A79AFD1F4CF5CB00B4672E /* PictureScreenSaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A79AFC1F4CF5CA00B4672E /* PictureScreenSaverView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		44A79AEF1F4CF52300B4672E /* PictureScreenSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PictureScreenSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
-		44A79AF21F4CF52300B4672E /* PictureScreenSaverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PictureScreenSaverView.h; sourceTree = "<group>"; };
-		44A79AF41F4CF52300B4672E /* PictureScreenSaverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PictureScreenSaverView.m; sourceTree = "<group>"; };
 		44A79AF61F4CF52300B4672E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44A79AFC1F4CF5CA00B4672E /* PictureScreenSaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PictureScreenSaverView.swift; path = PictureScreenSaver/PictureScreenSaverView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +30,7 @@
 		44A79AE51F4CF52300B4672E = {
 			isa = PBXGroup;
 			children = (
+				44A79AFC1F4CF5CA00B4672E /* PictureScreenSaverView.swift */,
 				44A79AF11F4CF52300B4672E /* PictureScreenSaver */,
 				44A79AF01F4CF52300B4672E /* Products */,
 			);
@@ -48,8 +47,6 @@
 		44A79AF11F4CF52300B4672E /* PictureScreenSaver */ = {
 			isa = PBXGroup;
 			children = (
-				44A79AF21F4CF52300B4672E /* PictureScreenSaverView.h */,
-				44A79AF41F4CF52300B4672E /* PictureScreenSaverView.m */,
 				44A79AF61F4CF52300B4672E /* Info.plist */,
 			);
 			path = PictureScreenSaver;
@@ -62,7 +59,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44A79AF31F4CF52300B4672E /* PictureScreenSaverView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +95,7 @@
 					44A79AEE1F4CF52300B4672E = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = Y7WN97S745;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -135,7 +132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44A79AF51F4CF52300B4672E /* PictureScreenSaverView.m in Sources */,
+				44A79AFD1F4CF5CB00B4672E /* PictureScreenSaverView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +142,7 @@
 		44A79AF71F4CF52300B4672E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -193,6 +191,7 @@
 		44A79AF81F4CF52300B4672E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -234,12 +233,16 @@
 		44A79AFA1F4CF52300B4672E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = Y7WN97S745;
 				INFOPLIST_FILE = PictureScreenSaver/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "eugene-o.PictureScreenSaver";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Debug;
@@ -247,12 +250,15 @@
 		44A79AFB1F4CF52300B4672E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = Y7WN97S745;
 				INFOPLIST_FILE = PictureScreenSaver/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "eugene-o.PictureScreenSaver";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Release;
@@ -276,6 +282,7 @@
 				44A79AFB1F4CF52300B4672E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
