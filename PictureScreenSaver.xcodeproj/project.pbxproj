@@ -15,7 +15,7 @@
 /* Begin PBXFileReference section */
 		44A79AEF1F4CF52300B4672E /* PictureScreenSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PictureScreenSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		44A79AF61F4CF52300B4672E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		44A79AFC1F4CF5CA00B4672E /* PictureScreenSaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PictureScreenSaverView.swift; path = PictureScreenSaver/PictureScreenSaverView.swift; sourceTree = "<group>"; };
+		44A79AFC1F4CF5CA00B4672E /* PictureScreenSaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureScreenSaverView.swift; sourceTree = "<group>"; };
 		44C452261F6C868C001938E8 /* ConfWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfWindowController.swift; sourceTree = "<group>"; };
 		44C452271F6C868C001938E8 /* ConfWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfWindowController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -34,9 +34,6 @@
 		44A79AE51F4CF52300B4672E = {
 			isa = PBXGroup;
 			children = (
-				44C452261F6C868C001938E8 /* ConfWindowController.swift */,
-				44C452271F6C868C001938E8 /* ConfWindowController.xib */,
-				44A79AFC1F4CF5CA00B4672E /* PictureScreenSaverView.swift */,
 				44A79AF11F4CF52300B4672E /* PictureScreenSaver */,
 				44A79AF01F4CF52300B4672E /* Products */,
 			);
@@ -54,6 +51,9 @@
 			isa = PBXGroup;
 			children = (
 				44A79AF61F4CF52300B4672E /* Info.plist */,
+				44A79AFC1F4CF5CA00B4672E /* PictureScreenSaverView.swift */,
+				44C452261F6C868C001938E8 /* ConfWindowController.swift */,
+				44C452271F6C868C001938E8 /* ConfWindowController.xib */,
 			);
 			path = PictureScreenSaver;
 			sourceTree = "<group>";
@@ -255,13 +255,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = Y7WN97S745;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PictureScreenSaver/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "eugene-o.PictureScreenSaver";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = saver;
@@ -272,13 +275,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = Y7WN97S745;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PictureScreenSaver/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "eugene-o.PictureScreenSaver";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = saver;
 			};
