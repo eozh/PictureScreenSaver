@@ -69,8 +69,12 @@ class PictureScreenSaverView: ScreenSaverView {
                 let fileManager = FileManager.default
                 
                 // Get contents in directory: '.' (current one)
-                let fileNames = try fileManager.contentsOfDirectory(atPath: directory)
-                //Swift.print(fileNames)
+                // let fileNames = try fileManager.contentsOfDirectory(atPath: directory)
+                // let's try deep traversal:
+                let fileNames = try fileManager.subpathsOfDirectory(atPath: directory)
+                //works but doesn't seem to traverse symbolic links
+
+                Swift.print(fileNames)
                 
                 self.imageFileNames = [String]()
                 
