@@ -2,7 +2,12 @@
 
 Slideshow screensaver for macOS. Unlike the built-in Apple screensavers you can adjust time interval between slides.
 
-## Acknowledgements
+## Download:
+
+[PictureScreenSaver-1.0.zip](https://github.com/eozh/PictureScreenSaver/releases/download/v1.0/PictureScreenSaver-1.0.zip)
+
+## Acknowledgements:
+
 - KDE Slide Show screennsaver
 - GLSlideshow from [XScreenSaver](https://www.jwz.org/xscreensaver/)
 - [Aerial](https://github.com/JohnCoates/Aerial) - great example of a screensaver written in Swift
