@@ -13,15 +13,17 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
 
     let defaults = ScreenSaverDefaults(forModuleWithName: "eugene-o.PictureScreenSaver")
 
+    var data: [String] = ["lorem","ipsum"]
     
     @IBOutlet weak var intervalStepper: NSStepper!
     @IBOutlet weak var transitionStepper: NSStepper!
     @IBOutlet weak var transitionField: NSTextField!
     @IBOutlet weak var okButton: NSButton!
-    @IBOutlet weak var fileNameField: NSTextField!
+//    @IBOutlet weak var fileNameField: NSTextField!
     @IBOutlet weak var intervalField: NSTextField!
     
-
+    @IBOutlet weak var folderTableView: NSTableView!
+    
     @IBAction func cancelButtonPressed(_ sender: Any) {
         loadDefaults()
         NSApp.mainWindow?.endSheet(window!)
@@ -35,23 +37,19 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
             return
         }
         
-        defaults?.set(fileNameField.stringValue, forKey: "directory")
+//        defaults?.set(fileNameField.stringValue, forKey: "directory")
         defaults?.set(intervalField.intValue, forKey: "interval")
         defaults?.set(transitionField.intValue, forKey: "transition")
         defaults?.synchronize()
         for view in PictureScreenSaverView.sharedViews{
-            view.setDirectory(directory: fileNameField.stringValue)
+//            view.setDirectory(directory: fileNameField.stringValue)
             view.interval = Int(intervalField.intValue)
             view.transition = Int(transitionField.intValue)
         }
         NSApp.mainWindow?.endSheet(window!)
     }
-    @IBAction func browseButtonPressed(_ sender: Any) {
 /*
-        let alert: NSAlert = NSAlert()
-        alert.messageText = "Browse"
-        alert.runModal()
-*/
+    @IBAction func browseButtonPressed(_ sender: Any) {
         let dialog = NSOpenPanel();
         
         dialog.title                   = "Choose a folder with images";
@@ -77,7 +75,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         
     }
 
-    
+*/
     func control(_ control: NSControl,
                           didFailToFormatString string: String,
                           errorDescription error: String?) -> Bool {
@@ -107,7 +105,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
     
     func loadDefaults(){
         if let directory = defaults?.string(forKey: "directory"){
-            fileNameField.stringValue = directory
+//            fileNameField.stringValue = directory
         }
         if let interval = defaults?.integer(forKey: "interval"){
             if interval > 0 {
@@ -126,4 +124,23 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         }
     }
     
+}
+
+extension ConfWindowController: NSTableViewDataSource, NSTableViewDelegate {
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        NSLog("EO numberOfRows");
+        return data.count
+    }
+ 
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+//    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        NSLog("EO tableView");
+        let item = (data)[row]
+        
+        let cell = tableView.make(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+        cell?.textField?.stringValue = item
+        return cell
+    }
+
 }
