@@ -13,7 +13,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
 
     let defaults = ScreenSaverDefaults(forModuleWithName: "eugene-o.PictureScreenSaver")
 
-    var data: [String] = ["lorem","ipsum"]
+    var data: [String] = []
     
     @IBOutlet weak var intervalStepper: NSStepper!
     @IBOutlet weak var transitionStepper: NSStepper!
@@ -76,6 +76,46 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
     }
 
 */
+    
+    @IBAction func plusButtonPressed(_ sender: Any) {
+        NSLog("EO plusButtonPressed");
+
+        let dialog = NSOpenPanel();
+        
+        dialog.title                   = "Choose a folder with images";
+        dialog.showsResizeIndicator    = true;
+        dialog.showsHiddenFiles        = false;
+        dialog.canChooseFiles          = false;
+        dialog.canChooseDirectories    = true;
+        dialog.canCreateDirectories    = false;
+        dialog.allowsMultipleSelection = false;
+        //dialog.allowedFileTypes        = ["txt"];
+        
+        if (dialog.runModal() == NSModalResponseOK) {
+            let result = dialog.url // Pathname of the file
+            
+            if (result != nil) {
+                let path = result!.path
+                NSLog("EO appending path...");
+                data.append(path)
+                NSLog("EO %@", data.description);
+                folderTableView.reloadData()
+            }
+        } else {
+            // User clicked on "Cancel"
+            return
+        }
+
+    }
+
+    @IBAction func minusButtonPressed(_ sender: Any) {
+        NSLog("EO minusButtonPressed");
+        if(folderTableView.selectedRow >= 0 ){
+            data.remove(at: folderTableView.selectedRow)
+            folderTableView.reloadData()
+        }
+    }
+    
     func control(_ control: NSControl,
                           didFailToFormatString string: String,
                           errorDescription error: String?) -> Bool {
