@@ -14,8 +14,9 @@ class PictureScreenSaverView: ScreenSaverView {
 
     var image: NSImage?
     let defaults = ScreenSaverDefaults(forModuleWithName: "eugene-o.PictureScreenSaver")
-    var directory: String?
-    var imageFileNames = [String]()
+    //var directory: String?
+    var directories: [String] = []
+    var imagePaths: [String] = []
     let layer1 = CALayer()
     let layer2 = CALayer()
     var activeLayer = 1
@@ -30,7 +31,8 @@ class PictureScreenSaverView: ScreenSaverView {
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
 
-        setDirectory(directory: defaults?.string(forKey: "directory"))
+        setDirectories(directories: defaults?.stringArray(forKey: "directories"))
+        
         if let interval = defaults?.integer(forKey: "interval"){
             if interval > 0 {
                 self.interval = interval
@@ -60,38 +62,33 @@ class PictureScreenSaverView: ScreenSaverView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setDirectory(directory: String?){
-        self.directory = directory
-        // Create a FileManager instance
-        if let directory = self.directory{
+    func setDirectories(directories: [String]?){
+        if let directories = directories{
+            self.directories = directories
+            self.imagePaths = [String]()
             do {
-                
+                // Create a FileManager instance
                 let fileManager = FileManager.default
                 
-                // Get contents in directory: '.' (current one)
-                // let fileNames = try fileManager.contentsOfDirectory(atPath: directory)
-                // let's try deep traversal:
-                let fileNames = try fileManager.subpathsOfDirectory(atPath: directory)
-                //works but doesn't seem to traverse symbolic links
+                for directory in directories {
+                    // deep traversal:
+                    let fileNames = try fileManager.subpathsOfDirectory(atPath: directory)
 
-                Swift.print(fileNames)
-                
-                self.imageFileNames = [String]()
-                
-                for s in fileNames {
-                    //Swift.print(s)
-                    let s1 = s.lowercased();
-                    if s1.hasSuffix(".jpg") || s1.hasSuffix(".jpeg") || s1.hasSuffix(".gif"){
-                        self.imageFileNames.append(s);
+                    //Swift.print(fileNames)
+                    
+                    for s in fileNames {
+                        //Swift.print(s)
+                        let s1 = s.lowercased();
+                        if s1.hasSuffix(".jpg") || s1.hasSuffix(".jpeg") || s1.hasSuffix(".gif") || s1.hasSuffix(".png"){
+                            self.imagePaths.append(directory+"/"+s);
+                        }
                     }
                 }
-                
-                Swift.print(self.imageFileNames)
+                Swift.print(self.imagePaths)
             } catch let error {
                 Swift.print(error)
             }
         }
-        
     }
     
     override func startAnimation() {
@@ -169,27 +166,11 @@ class PictureScreenSaverView: ScreenSaverView {
     func loadImage() {
         Swift.print("loadImage")
         DispatchQueue.global().async() {
- //           do {
-/*
-                let url = URL(string: "https://raw.githubusercontent.com/yomajkel/ImageStream/added-swift-image/assets/swift.png")
-                let data = try Data(contentsOf: url!)
-                self.image = NSImage(data: data)
-*/
-                
-        if let directory = self.directory {
-            if(self.imageFileNames.count > 0){
-                let num = arc4random_uniform(UInt32(self.imageFileNames.count))
-                let fileName = self.imageFileNames[Int(num)]
-                let path = directory+"/"+fileName;
-                
-//                self.image = NSImage(contentsOfFile: "/Users/eugene/Pictures/ephemera/xcmrxui00yrxbjw1tenl.jpg")
+            if(self.imagePaths.count > 0){
+                let num = arc4random_uniform(UInt32(self.imagePaths.count))
+                let path = self.imagePaths[Int(num)]
                 self.image = NSImage(contentsOfFile: path)
             }
-        }
-//                self.needsDisplay = true
-//            } catch let error {
-//                Swift.print(error)
-//            }
         }
     }
 }

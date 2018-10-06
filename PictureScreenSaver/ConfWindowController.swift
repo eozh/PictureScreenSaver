@@ -36,12 +36,12 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
             return
         }
         
-        defaults?.set(directories, forKey: "directories")
+        defaults?.set(self.directories, forKey: "directories")
         defaults?.set(intervalField.intValue, forKey: "interval")
         defaults?.set(transitionField.intValue, forKey: "transition")
         defaults?.synchronize()
         for view in PictureScreenSaverView.sharedViews{
-//            view.setDirectory(directory: fileNameField.stringValue)
+            view.setDirectories(directories: self.directories)
             view.interval = Int(intervalField.intValue)
             view.transition = Int(transitionField.intValue)
         }
@@ -121,17 +121,27 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         if let interval = defaults?.integer(forKey: "interval"){
             if interval > 0 {
                 intervalField.intValue = Int32(interval)
+                intervalStepper.intValue = Int32(interval)
             } else {
                 intervalField.intValue = 10
+                intervalStepper.intValue = 10
             }
         } else {
             intervalField.intValue = 10
+            intervalStepper.intValue = 10
         }
         
         if let transition = defaults?.integer(forKey: "transition"){
-            transitionField.intValue = Int32(transition)
+            if transition > 0 {
+                transitionField.intValue = Int32(transition)
+                transitionStepper.intValue = Int32(transition)
+            } else{
+                transitionField.intValue = 1
+                transitionStepper.intValue = 1
+            }
         } else {
             transitionField.intValue = 1
+            transitionStepper.intValue = 1
         }
     }
     
