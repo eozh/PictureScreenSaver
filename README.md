@@ -5,11 +5,12 @@ Slideshow screensaver for macOS. Unlike the built-in Apple screensavers you can 
 ## Release Notes:
 
 1.0 - Initial release
+
 1.1 - Implemented multiple directories
 
 ## Download:
 
-[PictureScreenSaver-1.0.zip](https://github.com/eozh/PictureScreenSaver/releases/download/v1.0/PictureScreenSaver-1.0.zip)
+[PictureScreenSaver-1.1.zip](https://github.com/eozh/PictureScreenSaver/releases/download/v1.1/PictureScreenSaver-1.1.zip)
 
 ## Acknowledgements:
 
