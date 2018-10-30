@@ -17,9 +17,13 @@ class PictureScreenSaverView: ScreenSaverView {
     //var directory: String?
     var directories: [String] = []
     var imagePaths: [String] = []
+    var imageDescriptions: [String] = [] // without prefix, for display
+    
     let layer1 = CALayer()
     let layer2 = CALayer()
     var activeLayer = 1
+    var textLayer = CATextLayer()
+    var currentImageDescription: String?
     
     var confWindowController: ConfWindowController?
     
@@ -54,8 +58,22 @@ class PictureScreenSaverView: ScreenSaverView {
         self.layer?.addSublayer(layer1)
         self.layer?.addSublayer(layer2)
         
-        PictureScreenSaverView.sharedViews.append(self)
+        //textLayer.string = ""
+        textLayer.bounds = (self.layer?.bounds)!
+        textLayer.anchorPoint = CGPoint(x: 0, y: 1)
+        textLayer.position = CGPoint(x: 10, y: layer!.bounds.height - 10)
+        //textLayer.alignmentMode = .left
+        //textLayer.foregroundColor = NSColor.lightGray.cgColor
+        textLayer.shadowRadius = 2.0
+        textLayer.shadowOpacity = 1.0
+        textLayer.shadowColor = CGColor.black
+        textLayer.shadowOffset = CGSize(width:0, height:0)
+        textLayer.fontSize = 18
+        textLayer.font = NSFont.systemFont(ofSize: 18)
+        self.layer?.addSublayer(textLayer)
         
+        
+        PictureScreenSaverView.sharedViews.append(self)
     }
     
     required init?(coder: NSCoder) {
@@ -66,6 +84,8 @@ class PictureScreenSaverView: ScreenSaverView {
         if let directories = directories{
             self.directories = directories
             self.imagePaths = [String]()
+            self.imageDescriptions = [String]()
+            
             do {
                 // Create a FileManager instance
                 let fileManager = FileManager.default
@@ -80,11 +100,12 @@ class PictureScreenSaverView: ScreenSaverView {
                         //Swift.print(s)
                         let s1 = s.lowercased();
                         if s1.hasSuffix(".jpg") || s1.hasSuffix(".jpeg") || s1.hasSuffix(".gif") || s1.hasSuffix(".png"){
-                            self.imagePaths.append(directory+"/"+s);
+                            self.imagePaths.append(directory+"/"+s)
+                            self.imageDescriptions.append(s)
                         }
                     }
                 }
-                Swift.print(self.imagePaths)
+                //Swift.print(self.imagePaths)
             } catch let error {
                 Swift.print(error)
             }
@@ -135,15 +156,11 @@ class PictureScreenSaverView: ScreenSaverView {
             let scaleX = frame.size.width/image.size.width;
             let scaleY = frame.size.height/image.size.height;
             let scale = min(scaleX, scaleY)
-//            let drawWidth = image.size.width * scale;
-//            let drawHeight = image.size.height * scale;
-//            let newBounds = CGRect(x: 0, y: 0, width: drawWidth, height: drawHeight)
-//            Swift.print("bounds :",layer1.bounds)
-            //Swift.print("newBounds :",newBounds)
-//            Swift.print("image.size :",image.size)
             imageLayer.bounds = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
-            //layer1.bounds = CGRect(x: 0, y: 0, width: 1920, height: 1200)
             imageLayer.transform = CATransform3DMakeScale(scale, scale, 1)
+        }
+        if let desc = self.currentImageDescription{
+            self.textLayer.string = desc
         }
     }
     
@@ -170,6 +187,7 @@ class PictureScreenSaverView: ScreenSaverView {
                 let num = arc4random_uniform(UInt32(self.imagePaths.count))
                 let path = self.imagePaths[Int(num)]
                 self.image = NSImage(contentsOfFile: path)
+                self.currentImageDescription = self.imageDescriptions[Int(num)]
             }
         }
     }
