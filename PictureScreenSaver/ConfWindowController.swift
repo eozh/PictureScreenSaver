@@ -20,6 +20,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
     @IBOutlet weak var transitionField: NSTextField!
     @IBOutlet weak var okButton: NSButton!
     @IBOutlet weak var intervalField: NSTextField!
+    @IBOutlet weak var showFileNamesCheckBox: NSButton!
     
     @IBOutlet weak var folderTableView: NSTableView!
     
@@ -39,11 +40,13 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         defaults?.set(self.directories, forKey: "directories")
         defaults?.set(intervalField.intValue, forKey: "interval")
         defaults?.set(transitionField.intValue, forKey: "transition")
+        defaults?.set(showFileNamesCheckBox.state == NSControlStateValueOn, forKey: "show_file_names")
         defaults?.synchronize()
         for view in PictureScreenSaverView.sharedViews{
             view.setDirectories(directories: self.directories)
             view.interval = Int(intervalField.intValue)
             view.transition = Int(transitionField.intValue)
+            view.setShowFileNames(bShow: showFileNamesCheckBox.state == NSControlStateValueOn)
         }
         NSApp.mainWindow?.endSheet(window!)
     }
@@ -142,6 +145,16 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         } else {
             transitionField.intValue = 1
             transitionStepper.intValue = 1
+        }
+        
+        if let bShow = defaults?.bool(forKey: "show_file_names"){
+            if bShow {
+                showFileNamesCheckBox.state = NSControlStateValueOn
+            } else{
+                showFileNamesCheckBox.state = NSControlStateValueOff
+            }
+        } else {
+            showFileNamesCheckBox.state = NSControlStateValueOn
         }
     }
     

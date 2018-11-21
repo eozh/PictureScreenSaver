@@ -31,7 +31,7 @@ class PictureScreenSaverView: ScreenSaverView {
     
     var interval = 10
     var transition = 1
-    
+   
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
 
@@ -72,7 +72,10 @@ class PictureScreenSaverView: ScreenSaverView {
         textLayer.font = NSFont.systemFont(ofSize: 18)
         self.layer?.addSublayer(textLayer)
         
-        
+        if let bShow = defaults?.bool(forKey: "show_file_names"){
+            setShowFileNames(bShow: bShow)
+        }
+
         PictureScreenSaverView.sharedViews.append(self)
     }
     
@@ -189,6 +192,14 @@ class PictureScreenSaverView: ScreenSaverView {
                 self.image = NSImage(contentsOfFile: path)
                 self.currentImageDescription = self.imageDescriptions[Int(num)]
             }
+        }
+    }
+    
+    func setShowFileNames(bShow: Bool){
+        if(bShow){
+            textLayer.opacity = 1
+        } else {
+            textLayer.opacity = 0
         }
     }
 }
