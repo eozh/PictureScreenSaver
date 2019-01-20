@@ -25,14 +25,13 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
     @IBOutlet weak var folderTableView: NSTableView!
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
+        NSLog("EO cancelButtonPressed");
         loadDefaults()
-        NSApp.mainWindow?.endSheet(window!)
+        window?.sheetParent?.endSheet(window!)
     }
  
     @IBAction func okButtonPressed(_ sender: Any) {
         // remove focus
-
-//        if !(intervalField.window?.makeFirstResponder(nil))!{
         if !(window?.makeFirstResponder(nil))!{
             return
         }
@@ -48,7 +47,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
             view.transition = Int(transitionField.intValue)
             view.setShowFileNames(bShow: showFileNamesCheckBox.state == NSControlStateValueOn)
         }
-        NSApp.mainWindow?.endSheet(window!)
+        window?.sheetParent?.endSheet(window!)
     }
     
     @IBAction func plusButtonPressed(_ sender: Any) {
@@ -93,12 +92,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
     func control(_ control: NSControl,
                           didFailToFormatString string: String,
                           errorDescription error: String?) -> Bool {
-        
-   /*     let field = control as? NSTextField
-        if let field = field{
-            field.intValue = 0
-        } */
-        
+                
         let alert: NSAlert = NSAlert()
         alert.alertStyle = NSAlertStyle.critical
         alert.messageText = error!

@@ -10,9 +10,11 @@ Slideshow screensaver for macOS. Unlike the built-in Apple screensavers you can 
 
 1.2 - Added an option to show file names
 
+1.2.1 - Fixes for macOS Mojave
+
 ## Download:
 
-[PictureScreenSaver-1.2.zip](https://github.com/eozh/PictureScreenSaver/releases/download/v1.2/PictureScreenSaver-1.2.zip)
+[PictureScreenSaver-1.2.1.zip](https://github.com/eozh/PictureScreenSaver/releases/download/v1.2.1/PictureScreenSaver-1.2.1.zip)
 
 ## Acknowledgements:
 
