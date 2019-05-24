@@ -25,12 +25,14 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
     @IBOutlet weak var folderTableView: NSTableView!
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
+        NSLog("EO cancelButtonPressed");
         loadDefaults()
-        NSApp.mainWindow?.endSheet(window!)
+        window?.sheetParent?.endSheet(window!)
     }
  
     @IBAction func okButtonPressed(_ sender: Any) {
         // remove focus
+        NSLog("EO okButtonPressed");
 
 //        if !(intervalField.window?.makeFirstResponder(nil))!{
         if !(window?.makeFirstResponder(nil))!{
@@ -40,15 +42,15 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         defaults?.set(self.directories, forKey: "directories")
         defaults?.set(intervalField.intValue, forKey: "interval")
         defaults?.set(transitionField.intValue, forKey: "transition")
-        defaults?.set(showFileNamesCheckBox.state == NSControlStateValueOn, forKey: "show_file_names")
+        defaults?.set(showFileNamesCheckBox.state == NSControl.StateValue.on, forKey: "show_file_names")
         defaults?.synchronize()
         for view in PictureScreenSaverView.sharedViews{
             view.setDirectories(directories: self.directories)
             view.interval = Int(intervalField.intValue)
             view.transition = Int(transitionField.intValue)
-            view.setShowFileNames(bShow: showFileNamesCheckBox.state == NSControlStateValueOn)
+            view.setShowFileNames(bShow: showFileNamesCheckBox.state == NSControl.StateValue.on)
         }
-        NSApp.mainWindow?.endSheet(window!)
+        window?.sheetParent?.endSheet(window!)
     }
     
     @IBAction func plusButtonPressed(_ sender: Any) {
@@ -65,7 +67,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         dialog.allowsMultipleSelection = false;
         //dialog.allowedFileTypes        = ["txt"];
         
-        if (dialog.runModal() == NSModalResponseOK) {
+        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
             let result = dialog.url // Pathname of the file
             
             if (result != nil) {
@@ -100,7 +102,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         } */
         
         let alert: NSAlert = NSAlert()
-        alert.alertStyle = NSAlertStyle.critical
+        alert.alertStyle = NSAlert.Style.critical
         alert.messageText = error!
         alert.beginSheetModal(for: window!)
         
@@ -149,12 +151,12 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         
         if let bShow = defaults?.bool(forKey: "show_file_names"){
             if bShow {
-                showFileNamesCheckBox.state = NSControlStateValueOn
+                showFileNamesCheckBox.state = NSControl.StateValue.on
             } else{
-                showFileNamesCheckBox.state = NSControlStateValueOff
+                showFileNamesCheckBox.state = NSControl.StateValue.off
             }
         } else {
-            showFileNamesCheckBox.state = NSControlStateValueOn
+            showFileNamesCheckBox.state = NSControl.StateValue.on
         }
     }
     
@@ -172,7 +174,7 @@ extension ConfWindowController: NSTableViewDataSource, NSTableViewDelegate {
         NSLog("EO tableView");
         let item = (directories)[row]
         
-        let cell = tableView.make(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
+        let cell = tableView.makeView(withIdentifier: (tableColumn!.identifier), owner: self) as? NSTableCellView
         cell?.textField?.stringValue = item
         return cell
     }
