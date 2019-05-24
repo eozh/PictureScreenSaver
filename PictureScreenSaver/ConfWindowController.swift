@@ -34,7 +34,6 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         // remove focus
         NSLog("EO okButtonPressed");
 
-//        if !(intervalField.window?.makeFirstResponder(nil))!{
         if !(window?.makeFirstResponder(nil))!{
             return
         }
@@ -95,12 +94,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
     func control(_ control: NSControl,
                           didFailToFormatString string: String,
                           errorDescription error: String?) -> Bool {
-        
-   /*     let field = control as? NSTextField
-        if let field = field{
-            field.intValue = 0
-        } */
-        
+                
         let alert: NSAlert = NSAlert()
         alert.alertStyle = NSAlert.Style.critical
         alert.messageText = error!
