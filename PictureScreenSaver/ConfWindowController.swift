@@ -10,10 +10,16 @@ import Cocoa
 import ScreenSaver
 
 class ConfWindowController: NSWindowController, NSTextFieldDelegate {
-
+    
+    enum PlaybackMode: Int {
+        case sequential, sequentialFromRandom, random
+    }
+    
     let defaults = ScreenSaverDefaults(forModuleWithName: "eugene-o.PictureScreenSaver")
 
     var directories: [String] = []
+    
+    var playbackMode = PlaybackMode.sequential
     
     @IBOutlet weak var intervalStepper: NSStepper!
     @IBOutlet weak var transitionStepper: NSStepper!
@@ -23,6 +29,9 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
     @IBOutlet weak var showFileNamesCheckBox: NSButton!
     
     @IBOutlet weak var folderTableView: NSTableView!
+    @IBOutlet weak var sequentialRadioButton: NSButton!
+    @IBOutlet weak var sequentialFromRandomRadioButton: NSButton!
+    @IBOutlet weak var randomRadioButton: NSButton!
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
         NSLog("EO cancelButtonPressed");
@@ -42,6 +51,8 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
         defaults?.set(intervalField.intValue, forKey: "interval")
         defaults?.set(transitionField.intValue, forKey: "transition")
         defaults?.set(showFileNamesCheckBox.state == NSControl.StateValue.on, forKey: "show_file_names")
+        defaults?.set(playbackMode.rawValue, forKey: "playback_mode")
+
         defaults?.synchronize()
         for view in PictureScreenSaverView.sharedViews{
             view.setDirectories(directories: self.directories)
@@ -151,6 +162,44 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
             }
         } else {
             showFileNamesCheckBox.state = NSControl.StateValue.on
+        }
+        
+        if let mode = PlaybackMode(rawValue: defaults?.integer(forKey: "playback_mode") ?? 0){
+            playbackMode = mode
+            NSLog("EO playbackMode: \(playbackMode)")
+            switch playbackMode{
+            case PlaybackMode.sequential:
+                NSLog("EO sequential")
+                sequentialRadioButton.state = .on
+            case PlaybackMode.sequentialFromRandom:
+                NSLog("EO sequentialFromRandom")
+                sequentialFromRandomRadioButton.state = .on
+            case PlaybackMode.random:
+                NSLog("EO Random")
+                randomRadioButton.state = .on
+            }
+        } else {
+            NSLog("EO playbackMode undefined")
+            sequentialRadioButton.state = .on
+        }
+
+        
+    }
+    
+    @IBAction func playbackModeChanged(_ sender: NSButton?) {
+        NSLog("EO plabackModeChanged")
+        switch sender{
+        case sequentialRadioButton:
+            NSLog("EO sequential")
+            playbackMode = PlaybackMode.sequential
+        case sequentialFromRandomRadioButton:
+            NSLog("EO sequentialFromRandom")
+            playbackMode = PlaybackMode.sequentialFromRandom
+        case randomRadioButton:
+            playbackMode = PlaybackMode.random
+            NSLog("EO Random")
+        default:
+            ()
         }
     }
     
