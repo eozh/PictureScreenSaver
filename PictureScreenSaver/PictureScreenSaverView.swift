@@ -10,6 +10,10 @@
 import Cocoa
 import ScreenSaver
 
+enum PlaybackMode: Int {
+    case sequential, sequentialFromRandom, random
+}
+
 class PictureScreenSaverView: ScreenSaverView {
 
     var image: NSImage?
@@ -31,7 +35,11 @@ class PictureScreenSaverView: ScreenSaverView {
     
     var interval = 10
     var transition = 1
-   
+
+    var playbackMode = PlaybackMode.sequential
+    var nextImageNumber = 0
+
+    
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
 
@@ -76,6 +84,14 @@ class PictureScreenSaverView: ScreenSaverView {
             setShowFileNames(bShow: bShow)
         }
 
+        if let mode = PlaybackMode(rawValue: defaults?.integer(forKey: "playback_mode") ?? 0){
+            playbackMode = mode
+        }
+
+        if playbackMode == PlaybackMode.sequentialFromRandom{
+            nextImageNumber = Int(arc4random_uniform(UInt32(self.imagePaths.count)))
+        }
+        
         PictureScreenSaverView.sharedViews.append(self)
     }
     
@@ -93,13 +109,13 @@ class PictureScreenSaverView: ScreenSaverView {
                 // Create a FileManager instance
                 let fileManager = FileManager.default
                 
-                for directory in directories {
+                for directory in directories.sorted() {
                     // deep traversal:
                     let fileNames = try fileManager.subpathsOfDirectory(atPath: directory)
 
                     //Swift.print(fileNames)
                     
-                    for s in fileNames {
+                    for s in fileNames.sorted() {
                         //Swift.print(s)
                         let s1 = s.lowercased();
                         if s1.hasSuffix(".jpg") || s1.hasSuffix(".jpeg") || s1.hasSuffix(".gif") || s1.hasSuffix(".png"){
@@ -185,9 +201,20 @@ class PictureScreenSaverView: ScreenSaverView {
 
     func loadImage() {
         Swift.print("loadImage")
+        var num = 0
+        switch playbackMode{
+        case PlaybackMode.sequential, PlaybackMode.sequentialFromRandom:
+            num = nextImageNumber
+            nextImageNumber += 1
+            if nextImageNumber == self.imagePaths.count {
+                nextImageNumber = 0
+            }
+        case PlaybackMode.random:
+            num = Int(arc4random_uniform(UInt32(self.imagePaths.count)))
+        }
+        
         DispatchQueue.global().async() {
             if(self.imagePaths.count > 0){
-                let num = arc4random_uniform(UInt32(self.imagePaths.count))
                 let path = self.imagePaths[Int(num)]
                 self.image = NSImage(contentsOfFile: path)
                 self.currentImageDescription = self.imageDescriptions[Int(num)]

@@ -11,10 +11,6 @@ import ScreenSaver
 
 class ConfWindowController: NSWindowController, NSTextFieldDelegate {
     
-    enum PlaybackMode: Int {
-        case sequential, sequentialFromRandom, random
-    }
-    
     let defaults = ScreenSaverDefaults(forModuleWithName: "eugene-o.PictureScreenSaver")
 
     var directories: [String] = []
@@ -59,6 +55,7 @@ class ConfWindowController: NSWindowController, NSTextFieldDelegate {
             view.interval = Int(intervalField.intValue)
             view.transition = Int(transitionField.intValue)
             view.setShowFileNames(bShow: showFileNamesCheckBox.state == NSControl.StateValue.on)
+            view.playbackMode = playbackMode
         }
         window?.sheetParent?.endSheet(window!)
     }
