@@ -25,7 +25,7 @@ class PictureScreenSaverView: ScreenSaverView {
     
     let layer1 = CALayer()
     let layer2 = CALayer()
-    var activeLayer = 1
+    var activeLayer = 0
     var textLayer = CATextLayer()
     var currentImageDescription: String?
     
@@ -59,10 +59,16 @@ class PictureScreenSaverView: ScreenSaverView {
         animationTimeInterval=TimeInterval(interval)
         self.wantsLayer = true
         //Swift.print("self.layer: ",self.layer)
+
         layer1.bounds = (self.layer?.bounds)!
         layer1.position = CGPoint(x: (self.layer?.bounds.midX)!, y: (self.layer?.bounds.midY)!)
+
         layer2.bounds = (self.layer?.bounds)!
         layer2.position = layer1.position
+
+        layer1.opacity = 0
+        layer2.opacity = 0
+
         self.layer?.addSublayer(layer1)
         self.layer?.addSublayer(layer2)
         
@@ -88,7 +94,7 @@ class PictureScreenSaverView: ScreenSaverView {
             playbackMode = mode
         }
 
-        if playbackMode == PlaybackMode.sequentialFromRandom{
+        if playbackMode == PlaybackMode.sequentialFromRandom && self.imagePaths.count > 0 {
             nextImageNumber = Int(arc4random_uniform(UInt32(self.imagePaths.count)))
         }
         
@@ -126,7 +132,7 @@ class PictureScreenSaverView: ScreenSaverView {
                 }
                 //Swift.print(self.imagePaths)
             } catch let error {
-                Swift.print(error)
+                NSLog(error.localizedDescription)
             }
         }
     }
@@ -141,13 +147,21 @@ class PictureScreenSaverView: ScreenSaverView {
     }
 
     override func animateOneFrame() {
-        Swift.print("animateOneFrame")
+        NSLog("EO animateOneFrame")
+        
+        //Do nothing on first run: this method is called twice first
+        if activeLayer == 0{
+            NSLog("EO first run")
+            activeLayer = 1
+            return
+        }
+        
         loadImage()
         
         //needsDisplay = true
         if activeLayer == 1{
             activeLayer = 2
-            Swift.print("activeLayer :",activeLayer)
+            NSLog("EO activeLayer: \(activeLayer)")
             CATransaction.setAnimationDuration(CFTimeInterval(transition))
             layer1.opacity = 0
             updateImageLayer(imageLayer: layer2)
@@ -157,7 +171,7 @@ class PictureScreenSaverView: ScreenSaverView {
             layer2.opacity = 1
         }  else {
             activeLayer = 1
-            Swift.print("activeLayer :",activeLayer)
+            NSLog("EO activeLayer: \(activeLayer)")
             CATransaction.setAnimationDuration(CFTimeInterval(transition))
             layer2.opacity = 0
             updateImageLayer(imageLayer: layer1)
@@ -169,7 +183,7 @@ class PictureScreenSaverView: ScreenSaverView {
     
     func updateImageLayer(imageLayer: CALayer){
         if let image = image {
-            Swift.print("updateImageLayer")
+            NSLog("EO updateImageLayer")
             CATransaction.setAnimationDuration(0)
             imageLayer.contents = image
             let scaleX = frame.size.width/image.size.width;
@@ -199,8 +213,18 @@ class PictureScreenSaverView: ScreenSaverView {
 
     }
 
+    func performGammaFade() -> Bool {
+        return true
+    }
+
+    
     func loadImage() {
-        Swift.print("loadImage")
+        NSLog("EO loadImage")
+
+        if self.imagePaths.count == 0{
+            return
+        }
+        
         var num = 0
         switch playbackMode{
         case PlaybackMode.sequential, PlaybackMode.sequentialFromRandom:
@@ -213,13 +237,13 @@ class PictureScreenSaverView: ScreenSaverView {
             num = Int(arc4random_uniform(UInt32(self.imagePaths.count)))
         }
         
-        DispatchQueue.global().async() {
-            if(self.imagePaths.count > 0){
-                let path = self.imagePaths[Int(num)]
-                self.image = NSImage(contentsOfFile: path)
-                self.currentImageDescription = self.imageDescriptions[Int(num)]
-            }
-        }
+        //Do we really need to do it on a separate thread?
+        //This may be causing blank images!
+        //DispatchQueue.global().async() {
+            let path = self.imagePaths[Int(num)]
+            self.image = NSImage(contentsOfFile: path)
+            self.currentImageDescription = self.imageDescriptions[Int(num)]
+        //}
     }
     
     func setShowFileNames(bShow: Bool){
