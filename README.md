@@ -12,9 +12,12 @@ Slideshow screensaver for macOS. Unlike the built-in Apple screensavers you can 
 
 1.2.1 - Fixes for macOS Mojave
 
+1.3 - Added three playback modes: sequential, sequential from random image and random.
+Upgraded to Swift 5.
+
 ## Download:
 
-[PictureScreenSaver-1.2.1.zip](https://github.com/eozh/PictureScreenSaver/releases/download/v1.2.1/PictureScreenSaver-1.2.1.zip)
+[PictureScreenSaver-1.3.zip](https://github.com/eozh/PictureScreenSaver/releases/download/v1.3/PictureScreenSaver-1.3.zip)
 
 ## Acknowledgements:
 
@@ -23,4 +26,4 @@ Slideshow screensaver for macOS. Unlike the built-in Apple screensavers you can 
 - [Aerial](https://github.com/JohnCoates/Aerial) - great example of a screensaver written in Swift
 - [Writing OS X Screensaver in Swift 2.0](https://whichline.wordpress.com/2015/07/13/os-x-screensaver-swift-2-part-1/)
 
-![screenshot](https://github.com/eozh/PictureScreenSaver/raw/master/screenshot_112018.png)
+![screenshot](https://github.com/eozh/PictureScreenSaver/raw/master/screenshot_070219.png)
