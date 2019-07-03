@@ -19,6 +19,8 @@ Upgraded to Swift 5.
 
 [PictureScreenSaver-1.3.zip](https://github.com/eozh/PictureScreenSaver/releases/download/v1.3/PictureScreenSaver-1.3.zip)
 
+Note: This screensaver has not been signed with a developer certificate. To install it, unzip it, then right-click on it and select "Open".
+
 ## Acknowledgements:
 
 - KDE Slide Show screennsaver
