@@ -4,7 +4,7 @@ Slideshow screensaver for macOS.
 
 ## Features:
 
-- Adjustable time interval between slides
+- Adjustable time interval 
 - 3 playback modes: sequential, sequential from random image and random
 - Show images from multiple folders (including subfolders)
 
