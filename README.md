@@ -1,6 +1,12 @@
 # PictureScreenSaver
 
-Slideshow screensaver for macOS. Unlike the built-in Apple screensavers you can adjust time interval between slides.
+Slideshow screensaver for macOS. 
+
+## Features:
+
+- Adjustable time interval between slides
+- 3 playback modes: sequential, sequential from random image and random
+- Show images from multiple folders (including subfolders)
 
 ## Release Notes:
 
